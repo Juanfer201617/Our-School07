@@ -1,4 +1,5 @@
 
+let modeloProducto = require('./backend/models/productos.model')
 const exp = require('express');
 const app = exp();
 
@@ -24,8 +25,15 @@ app.get('/productos/:ref', async (req, res)=>{
         res.status(404).json({"errorr":"Producto no encontrado"})    
 });
 
+app.get('/',(req,res)=>{
+    res.end("<h2>s</h2>");
+})
 
-app.put("/producto/.ref", async (req,res)=>{
+app.get("/formulario", (req,res)=>{
+    res.render('/pages/listarProducto')
+});
+
+app.post("/productos/.ref", async (req,res)=>{ 
     const productoEditado = {
         referencia: req.params.ref,
         nombre: req.body -nombreProducto,
@@ -51,9 +59,12 @@ app.delete("/producto/.id", async (req,res)=>{
         res.status(404).json({"mensaje":"No se presento un error"})
 });
 
+const path = require('path');
+app.use(exp.static(path.join(__dirname, './static'))) //comentatrios 
+app.set('view engine','ejs');
+app.set('views',path.join(__dirname,'./frontend/views'))//comentarios 
 
-app.listen(process.env.PORT, ( )=>{
-    console.log("servidor en linea");
+app.listen(process.env.PORT, ( ) => {
+    console.log("servidor en linea"+process.env.PORT);
 });
 
-let modeloProducto = require('./backend/models/productos.model')
